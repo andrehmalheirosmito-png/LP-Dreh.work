@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
+import { TextRhythmic } from './animations/TextAnimations';
 
 export default function Features() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -36,45 +37,19 @@ export default function Features() {
   ];
 
   return (
-    <section ref={containerRef} id="servicos" className="relative h-auto lg:h-[400vh] bg-brand-navy-dark">
-      {/* Mobile View: Vertical Stack */}
-      <div className="lg:hidden py-20 px-6 space-y-20">
-        {features.map((feature, index) => (
-          <div key={index} className="space-y-8">
-            <div className="flex items-center gap-4">
-              <span className="text-6xl font-black text-brand-cyan/10 leading-none font-mono">0{index + 1}</span>
-              <div className="h-px flex-grow bg-brand-cyan/20"></div>
-            </div>
-            <h3 className="text-4xl font-black text-white tracking-tighter leading-none">
-              {feature.title}
-            </h3>
-            <p className="text-lg text-brand-gray leading-relaxed font-light">
-              {feature.description}
-            </p>
-            <div className="relative aspect-square rounded-3xl overflow-hidden border border-white/10">
-              <img 
-                src={feature.image} 
-                alt={feature.title} 
-                className="w-full h-full object-cover grayscale"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-dark/80 to-transparent"></div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Desktop View: Sticky Reveal */}
-      <div className="hidden lg:block sticky top-0 h-[100dvh] flex items-center overflow-hidden z-10 will-change-transform">
-        <div className="container mx-auto px-12 grid grid-cols-2 gap-20 items-center">
-          
-          {/* Left Side: Text Reveal */}
-          <div className="relative h-[60vh] flex flex-col justify-center">
+    <section ref={containerRef} id="servicos" className="relative lg:h-[400vh] h-auto bg-brand-navy-dark">
+      
+      {/* Desktop Version: Sticky Reveal Animation */}
+      <div className="hidden lg:block sticky top-0 h-[100dvh] overflow-hidden z-10 will-change-transform">
+        <div className="container mx-auto px-6 md:px-12 h-full flex items-center justify-center">
+          <div className="grid grid-cols-2 gap-24 items-center w-full py-32">
+            
+            {/* Left Side: Text Reveal */}
+            <div className="relative h-[65vh] flex flex-col justify-center">
             {features.map((feature, index) => {
               const start = index / features.length;
               const end = (index + 1) / features.length;
               
-              // Overlapping ranges for continuous animation
               const opacity = useTransform(smoothProgress, 
                 [start - 0.1, start, end - 0.1, end], 
                 [0, 1, 1, 0]
@@ -91,15 +66,14 @@ export default function Features() {
                   className="absolute inset-0 flex flex-col justify-center"
                 >
                   <div className="flex items-center gap-6 mb-8">
-                    <span className="text-8xl font-black text-brand-cyan/10 leading-none font-mono glitch-text" data-text={`0${index + 1}`}>0{index + 1}</span>
-                    <div className="h-px flex-grow bg-brand-cyan/20 shadow-[0_0_10px_rgba(0,209,255,0.3)]"></div>
+                    <span className="text-8xl font-black text-brand-cyan/10 leading-none font-mono">0{index + 1}</span>
+                    <div className="h-px flex-grow bg-brand-cyan/20"></div>
                   </div>
-                  <h3 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
-                    {feature.title.split(' ').map((word, i) => (
-                      <span key={i} className={i === 1 ? 'text-brand-cyan text-glow' : ''}>{word} </span>
-                    ))}
-                  </h3>
-                  <p className="text-xl md:text-3xl text-brand-gray leading-relaxed max-w-lg font-light">
+                  <TextRhythmic 
+                    text={feature.title} 
+                    className="text-8xl font-black text-white mb-8 tracking-tighter leading-none"
+                  />
+                  <p className="text-3xl text-brand-gray leading-relaxed max-w-lg font-light">
                     {feature.description}
                   </p>
                 </motion.div>
@@ -108,7 +82,7 @@ export default function Features() {
           </div>
 
           {/* Right Side: Image Reveal */}
-          <div className="relative h-[60vh] perspective-2000">
+          <div className="relative h-[65vh] perspective-2000">
             {features.map((feature, index) => {
               const start = index / features.length;
               const end = (index + 1) / features.length;
@@ -140,16 +114,57 @@ export default function Features() {
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
                       referrerPolicy="no-referrer"
                     />
-                    {/* Scanning Line */}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-cyan/10 to-transparent h-1/2 w-full -translate-y-full group-hover:animate-[scan_2s_linear_infinite] pointer-events-none z-20"></div>
                   </div>
                 </motion.div>
               );
             })}
           </div>
-
         </div>
       </div>
+    </div>
+
+    {/* Mobile Version: Standard Vertical List */}
+      <div className="lg:hidden container mx-auto px-6 py-32 flex flex-col gap-32">
+        {features.map((feature, index) => (
+          <motion.div 
+            key={index}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="flex flex-col gap-10"
+          >
+            <div className="flex items-center gap-4">
+              <span className="text-5xl font-black text-brand-cyan/20 leading-none font-mono">0{index + 1}</span>
+              <div className="h-px flex-grow bg-brand-cyan/10"></div>
+            </div>
+            
+            <h3 className="text-3xl sm:text-4xl font-black text-white tracking-tighter leading-none text-left">
+              {feature.title}
+            </h3>
+            
+            <p className="text-lg text-brand-gray leading-relaxed font-light text-left">
+              {feature.description}
+            </p>
+            
+            <div className="relative aspect-[4/5] rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl group">
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-dark/90 via-transparent to-transparent z-10"></div>
+              <img 
+                src={feature.image} 
+                alt={feature.title} 
+                className="w-full h-full object-cover grayscale"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute bottom-8 left-8 right-8 z-20">
+                <div className="font-mono text-[10px] text-brand-cyan/50 tracking-[0.5em] uppercase">
+                  PHASE_0{index + 1} // STATUS: ACTIVE
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
     </section>
   );
 }

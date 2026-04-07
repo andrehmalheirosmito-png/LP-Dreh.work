@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 import { Zap, Target, BarChart3 } from 'lucide-react';
+import { TextScrollReveal, TextBinary } from './animations/TextAnimations';
 
 export default function ProblemSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,7 +20,7 @@ export default function ProblemSection() {
   const x2 = useTransform(smoothProgress, [0, 1], [200, -200]);
 
   return (
-    <section ref={containerRef} id="beneficios" className="py-32 bg-brand-navy-dark relative overflow-hidden">
+    <section ref={containerRef} id="solucoes" className="py-24 md:py-32 bg-brand-navy-dark relative overflow-hidden">
       {/* Digital Grid Background */}
       <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
 
@@ -43,23 +44,23 @@ export default function ProblemSection() {
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-4xl mx-auto mb-24"
+          className="text-center max-w-4xl mx-auto mb-20 md:mb-24"
         >
           <span className="text-brand-cyan font-mono text-xs mb-6 tracking-[0.4em] uppercase block">Diagnóstico de Falhas</span>
-          <h2 className="text-4xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-none">
-            Por que sua operação digital está <br />
-            <span className="text-brand-cyan text-glow">perdendo dinheiro?</span>
-          </h2>
+          <TextScrollReveal 
+            text="Por que sua operação digital está perdendo dinheiro?" 
+            className="text-3xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-none"
+          />
           <motion.div 
             initial={{ width: 0 }}
             whileInView={{ width: 160 }}
             viewport={{ once: true }}
             transition={{ duration: 1.5, delay: 0.5 }}
-            className="h-1 bg-brand-cyan mx-auto rounded-full shadow-[0_0_10px_rgba(0,209,255,0.8)]"
+            className="h-1 bg-brand-cyan mx-auto rounded-full"
           />
         </motion.div>
 
-        <div className="flex md:grid md:grid-cols-3 gap-8 overflow-x-auto md:overflow-x-visible pb-8 md:pb-0 snap-x snap-mandatory no-scrollbar">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
               title: "LENTIDÃO FATAL",
@@ -87,12 +88,12 @@ export default function ProblemSection() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.2 }}
               whileHover={{ y: -10 }}
-              className="group relative bg-brand-navy-dark/40 backdrop-blur-xl p-10 border-l border-brand-cyan/20 overflow-hidden min-w-[85vw] md:min-w-0 snap-center"
+              className="group relative bg-brand-navy-dark/40 backdrop-blur-xl p-10 border-l border-brand-cyan/20 overflow-hidden min-h-[350px] flex flex-col justify-center"
             >
               {/* Technical Accents */}
               <div className="absolute top-0 right-0 w-16 h-16 bg-brand-cyan/5 -rotate-45 translate-x-8 -translate-y-8"></div>
               <div className="absolute top-4 right-4 font-mono text-[8px] text-brand-cyan/30 tracking-widest">
-                {item.tag}
+                <TextBinary text={item.tag} />
               </div>
               
               <div className="relative w-16 h-16 mb-8 flex items-center justify-center">

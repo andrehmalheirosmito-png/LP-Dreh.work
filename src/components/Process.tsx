@@ -42,46 +42,17 @@ export default function Process() {
   ];
 
   return (
-    <section ref={containerRef} id="processo" className="relative h-auto lg:h-[400vh] bg-brand-navy-dark">
+    <section ref={containerRef} id="metodologia" className="relative lg:h-[400vh] h-auto bg-brand-navy-dark">
       {/* Digital Grid Background */}
       <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
 
-      {/* Mobile View: Vertical Stack */}
-      <div className="lg:hidden py-20 px-6 relative z-10">
-        <div className="mb-16">
-          <span className="text-brand-cyan font-mono text-xs mb-4 tracking-[0.4em] uppercase block">Nossa Metodologia</span>
-          <h2 className="text-4xl font-black text-white leading-none tracking-tighter mb-6">
-            O Protocolo <br />
-            <span className="text-brand-cyan text-glow">DREH.</span>
-          </h2>
-          <p className="text-lg text-brand-gray leading-relaxed font-light">
-            Abandonamos o achismo. Nosso processo é um método validado de engenharia de conversão.
-          </p>
-        </div>
-
-        <div className="space-y-12">
-          {steps.map((step, index) => (
-            <div key={index} className="relative p-8 bg-brand-navy-dark/40 backdrop-blur-xl border-l border-brand-cyan/20">
-              <div className="flex items-center gap-4 mb-6">
-                <div className={`w-12 h-12 ${step.color} flex items-center justify-center text-xl font-mono font-black border border-white/10 ${index === 1 ? 'text-brand-navy-dark' : 'text-white'}`}>
-                  {step.number}
-                </div>
-                <h3 className="text-2xl font-black text-white tracking-tighter uppercase">{step.title}</h3>
-              </div>
-              <p className="text-sm text-brand-gray leading-relaxed font-mono">
-                {step.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Desktop View: Sticky Reveal */}
-      <div className="hidden lg:block sticky top-0 h-[100dvh] flex items-center overflow-hidden z-10 will-change-transform">
-        <div className="container mx-auto px-12 grid grid-cols-2 gap-20 items-center">
-          
-          {/* Left Side: Pinned Title */}
-          <div className="relative z-20">
+      {/* Desktop Version: Sticky Steps Animation */}
+      <div className="hidden lg:block sticky top-0 h-[100dvh] overflow-hidden z-10 will-change-transform">
+        <div className="container mx-auto px-6 md:px-12 h-full flex items-center justify-center">
+          <div className="grid grid-cols-2 gap-24 items-center w-full py-32">
+            
+            {/* Left Side: Pinned Title */}
+            <div className="relative z-20">
             <motion.div
               style={{ 
                 opacity: useTransform(smoothProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]),
@@ -89,9 +60,9 @@ export default function Process() {
               }}
             >
               <span className="text-brand-cyan font-mono text-xs mb-6 tracking-[0.4em] uppercase block">Nossa Metodologia</span>
-              <h2 className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-8">
+              <h2 className="text-8xl font-black text-white leading-none tracking-tighter mb-8">
                 O Protocolo <br />
-                <span className="text-brand-cyan text-glow">DREH.</span>
+                <span className="text-brand-cyan">DREH.</span>
               </h2>
               <p className="text-xl text-brand-gray max-w-md leading-relaxed font-light">
                 Abandonamos o achismo. Nosso processo é um método validado de engenharia de conversão para entregar resultados previsíveis e altamente escaláveis.
@@ -100,12 +71,11 @@ export default function Process() {
           </div>
 
           {/* Right Side: Scrolling Steps */}
-          <div className="relative h-[60vh] flex flex-col justify-center">
+          <div className="relative h-[65vh] flex flex-col justify-center">
             {steps.map((step, index) => {
               const start = index / steps.length;
               const end = (index + 1) / steps.length;
               
-              // Overlapping ranges to avoid "invisible" states
               const opacity = useTransform(smoothProgress, 
                 [start - 0.1, start, end - 0.1, end], 
                 [0, 1, 1, 0]
@@ -133,12 +103,11 @@ export default function Process() {
                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-1 bg-brand-cyan animate-pulse"></div>
                     </div>
                   </div>
-                  <h3 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-none uppercase">{step.title}</h3>
-                  <p className="text-lg md:text-xl text-brand-gray leading-relaxed max-w-lg font-mono tracking-tight">
+                  <h3 className="text-6xl font-black text-white mb-6 tracking-tighter leading-none uppercase">{step.title}</h3>
+                  <p className="text-xl text-brand-gray leading-relaxed max-w-lg font-mono tracking-tight">
                     {step.description}
                   </p>
                   
-                  {/* Technical Metadata */}
                   <div className="mt-10 font-mono text-[8px] text-brand-cyan/30 tracking-[0.5em] uppercase">
                     PHASE_{step.number} // STATUS: OPTIMIZING_WORKFLOW
                   </div>
@@ -146,7 +115,41 @@ export default function Process() {
               );
             })}
           </div>
+        </div>
+      </div>
+    </div>
 
+    {/* Mobile Version: Standard Vertical List */}
+      <div className="lg:hidden container mx-auto px-6 py-32 relative z-10">
+        <div className="mb-24">
+          <span className="text-brand-cyan font-mono text-xs mb-6 tracking-[0.4em] uppercase block">Nossa Metodologia</span>
+          <h2 className="text-4xl sm:text-5xl font-black text-white leading-none tracking-tighter mb-8 text-left">
+            O Protocolo <br />
+            <span className="text-brand-cyan">DREH.</span>
+          </h2>
+          <p className="text-lg text-brand-gray leading-relaxed font-light text-left">
+            Abandonamos o achismo. Nosso processo é um método validado de engenharia de conversão.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-20">
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative pl-12 border-l border-brand-cyan/20"
+            >
+              <div className={`absolute -left-6 top-0 w-12 h-12 ${step.color} flex items-center justify-center text-lg font-mono font-black border border-white/10 ${index === 1 ? 'text-brand-navy-dark' : 'text-white'}`}>
+                {step.number}
+              </div>
+              <h3 className="text-2xl font-black text-white mb-6 tracking-tighter uppercase text-left">{step.title}</h3>
+              <p className="text-base text-brand-gray leading-relaxed font-mono tracking-tight text-left">
+                {step.description}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
 

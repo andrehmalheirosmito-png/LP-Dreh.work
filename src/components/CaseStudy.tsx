@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'motion/react';
 import { Cpu, Zap, Activity, CheckCircle2 } from 'lucide-react';
+import { TextDecoding } from './animations/TextAnimations';
 
 export default function CaseStudy() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -83,12 +84,12 @@ export default function CaseStudy() {
       <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none"></div>
       
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-16 items-center">
           
           {/* Left Column: Content */}
           <motion.div 
             style={{ opacity, scale }}
-            className="order-2 lg:order-1 flex flex-col space-y-10"
+            className="flex flex-col space-y-10"
           >
             <div className="space-y-4">
               <div className="flex items-center gap-4">
@@ -108,7 +109,7 @@ export default function CaseStudy() {
                 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none"
               >
                 CASE: <br />
-                <span className="text-brand-cyan text-glow">PROTOCOLO AMFTV</span>
+                <span className="text-brand-cyan">PROTOCOLO AMFTV</span>
               </motion.h2>
             </div>
 
@@ -127,7 +128,7 @@ export default function CaseStudy() {
                     {kpi.label}
                   </div>
                   <div className="text-white font-bold text-sm leading-tight">
-                    {kpi.value}
+                    <TextDecoding text={kpi.value} />
                   </div>
                   {kpi.scores && (
                     <div className="grid grid-cols-4 gap-2 mt-4">
@@ -170,13 +171,16 @@ export default function CaseStudy() {
               ))}
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0, 209, 255, 0.3)" }}
+            <motion.a
+              href="https://amftv.com.br"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-fit px-10 py-4 border border-brand-cyan text-brand-cyan font-black text-xs tracking-[0.3em] uppercase rounded-full hover:bg-brand-cyan hover:text-brand-navy-dark transition-all duration-300"
+              className="w-fit px-10 py-4 border border-brand-cyan text-brand-cyan font-black text-xs tracking-[0.3em] uppercase rounded-full hover:bg-brand-cyan hover:text-brand-navy-dark transition-all duration-300 block"
             >
-              VER OUTROS ESCOPOS
-            </motion.button>
+              Acessar Site AMFTV
+            </motion.a>
           </motion.div>
 
           {/* Right Column: iMac Mockup */}
@@ -184,7 +188,7 @@ export default function CaseStudy() {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="order-1 lg:order-2 relative flex items-center justify-center lg:justify-end"
+            className="relative flex items-center justify-center lg:justify-end"
           >
             {/* iMac Mockup Container */}
             <div 
@@ -198,7 +202,7 @@ export default function CaseStudy() {
               <img 
                 src="/assets/imac-mockup-frente.png" 
                 alt="iMac Mockup Frente" 
-                className="absolute inset-0 w-full h-full object-contain z-10"
+                className="absolute inset-0 w-full h-full object-contain z-10 grayscale"
                 referrerPolicy="no-referrer"
               />
 
@@ -209,7 +213,7 @@ export default function CaseStudy() {
                 className="absolute inset-0 w-full h-full object-contain z-20"
                 referrerPolicy="no-referrer"
                 animate={{
-                  clipPath: `circle(${isHovering || isMobile ? '200px' : '0px'} at ${mousePos.x}% ${mousePos.y}%)`
+                  clipPath: `circle(${isHovering || isMobile ? (isMobile ? '45px' : '100px') : '0px'} at ${mousePos.x}% ${mousePos.y}%)`
                 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 150, mass: 0.5 }}
               />
@@ -226,15 +230,12 @@ export default function CaseStudy() {
                 style={{ x: '-50%', y: '-50%' }}
                 transition={{ type: 'spring', damping: 25, stiffness: 150, mass: 0.5 }}
               >
-                <div className="w-[400px] h-[400px] border-2 border-brand-cyan rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,209,255,0.2)]">
+                <div className="w-[100px] md:w-[200px] h-[100px] md:h-[200px] border-2 border-brand-cyan rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,209,255,0.2)]">
                   <div className="absolute inset-0 border border-brand-cyan/30 rounded-full animate-ping"></div>
                   <div className="w-6 h-6 border border-brand-cyan rotate-45 flex items-center justify-center">
                     <div className="w-1 h-1 bg-brand-cyan rounded-full"></div>
                   </div>
-                  {/* Lens Coordinates */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-10 bg-brand-navy-dark/90 px-3 py-1 rounded-full border border-brand-cyan/30 font-mono text-[10px] text-brand-cyan whitespace-nowrap shadow-xl">
-                    SCAN_XRAY: {Math.round(mousePos.x)}% | {Math.round(mousePos.y)}%
-                  </div>
+
                 </div>
               </motion.div>
             </div>

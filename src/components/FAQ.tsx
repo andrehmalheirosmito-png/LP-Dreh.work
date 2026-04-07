@@ -29,7 +29,7 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section ref={sectionRef} id="faq" className="py-32 bg-brand-navy-dark relative overflow-hidden">
+    <section ref={sectionRef} id="faq" className="py-24 md:py-32 bg-brand-navy-dark relative overflow-hidden">
       {/* Digital Grid Background */}
       <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
 
@@ -52,14 +52,14 @@ export default function FAQ() {
           <span className="text-brand-cyan font-mono text-xs mb-6 tracking-[0.4em] uppercase block">Base de Conhecimento</span>
           <h2 className="text-4xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-none">
             Perguntas <br />
-            <span className="text-brand-cyan text-glow">Frequentes.</span>
+            <span className="text-brand-cyan">Frequentes.</span>
           </h2>
           <motion.div 
             initial={{ width: 0 }}
             whileInView={{ width: 80 }}
             viewport={{ once: true }}
             transition={{ duration: 1.5, delay: 0.5 }}
-            className="h-1 bg-brand-cyan mx-auto rounded-full shadow-[0_0_10px_rgba(0,209,255,0.8)]"
+            className="h-1 bg-brand-cyan mx-auto rounded-full"
           />
         </motion.div>
 

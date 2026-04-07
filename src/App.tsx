@@ -12,11 +12,16 @@ import FAQ from './components/FAQ';
 import FooterCTA from './components/FooterCTA';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
+import LegalModal, { PrivacyPolicyContent, TermsOfServiceContent } from './components/LegalModal';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 
 export default function App() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [legalModal, setLegalModal] = useState<{ isOpen: boolean; type: 'privacy' | 'terms' | null }>({
+    isOpen: false,
+    type: null
+  });
   const lenisRef = useRef<Lenis | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -94,7 +99,7 @@ export default function App() {
         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-px bg-brand-cyan/50"></div>
       </motion.div>
 
-      <Navbar scrollProgress={scrollYProgress} />
+      <Navbar />
       <main className="relative z-10 bg-brand-navy-dark">
         <Hero />
         <ProblemSection />
@@ -106,7 +111,14 @@ export default function App() {
         <FAQ />
         <FooterCTA />
       </main>
-      <Footer />
+      <Footer onOpenLegal={(type) => setLegalModal({ isOpen: true, type })} />
+
+      <LegalModal
+        isOpen={legalModal.isOpen}
+        onClose={() => setLegalModal({ ...legalModal, isOpen: false })}
+        title={legalModal.type === 'privacy' ? 'Política de Privacidade' : 'Termos de Serviço'}
+        content={legalModal.type === 'privacy' ? <PrivacyPolicyContent /> : <TermsOfServiceContent />}
+      />
     </div>
   );
 }
